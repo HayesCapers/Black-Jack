@@ -1,5 +1,6 @@
 .the-table{
-	background-color: #277714;
+	/* background-color: #277714; */
+	background: linear-gradient(#346b35, #277714);
 	border: 5px solid #cacaca;
 	border-radius: 10px;
 	margin-top: 50px;
@@ -17,5 +18,6 @@
 
 .card img{
 	width: 100%;
-	height: 120px;
+	max-height: 120px;
+	border-radius: 7px;
 }

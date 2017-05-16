@@ -42,7 +42,59 @@ $(document).ready(function(){
 		placeCard('dealer', 1,dealersHand[0]);
 		placeCard('player',2,playersHand[1]);
 		placeCard('dealer', 2,dealersHand[1]);
+
+		calculateTotal(playersHand, 'player');
+		calculateTotal(dealersHand, 'dealer');
 	});
+
+	$('.hit-button').click(function(){
+		if (playersHand.length < 6){
+			playersHand.push(theDeck.shift());
+			placeCard('player',playersHand.length,playersHand[playersHand.length - 1]);
+		}
+		calculateTotal(playersHand,'player');
+		calculateTotal(dealersHand,'dealer');
+	});
+
+	$('.stand-button').click(function(){
+		// control goes tot eh dealer
+		// if dealer has less than 17 delaer must hit-button
+		// if dealer has more than 17 dealer must stand
+		var dealerTotal = calculateTotal(dealersHand,'dealer');
+		while (dealerTotal < 17){
+			dealersHand.push(theDeck.shift());
+			placeCard('dealer',dealersHand.length,dealersHand[dealersHand.length - 1]);
+			dealerTotal = calculateTotal(dealersHand,'dealer');
+		}
+		checkWin();
+	})
+
+	function checkWin(){
+		var playerTotal = calculateTotal(playersHand, 'player');
+		var dealerTotal = calculateTotal(dealersHand, 'player');
+		if playerTotal > 21 //player loses
+		if dealerTotal > 21 //dealer loses
+		if playersHand.length == 2 && playerTotal == 21 //blackjack!
+		if dealersHand.length == 2 && dealerTotal == 21 //blackjack!
+		if dealerTotal >= playerTotal //player wins
+		else //tie
+	}
+
+	function calculateTotal(hand,who){
+		// init total at 0
+		var total = 0;
+		// create a temp value fo rthis card's value
+		var thisCardValue = 0;
+		// loop through the hand
+		// grab the number in the element and add it to the total
+		for (let i = 0; i < hand.length; i++){
+			thisCardValue = Number(hand[i].slice(0,-1));
+			total += thisCardValue;
+		}
+		var classSelector = '.' + who + '-total-count';
+		$(classSelector).html(total);
+		return total;
+	}
 
 	function placeCard(who,where,cardToPlace){
 		var classSelector = '.' + who + '-cards .card-' + where;
